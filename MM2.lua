@@ -102,7 +102,7 @@ task.delay(5, function()
 
         pcall(function()
 
-            game:GetService('TextChatService').TextChannels.RBXGeneral:SendAsync('Hi guys how are you🫶')
+            game:GetService('TextChatService').TextChannels.RBXGeneral:SendAsync('Hi guys how are you ❤️')
 
         end)
 
