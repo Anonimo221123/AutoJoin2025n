@@ -1,28 +1,21 @@
 getgenv().EjecutarsePrimero = true
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+local TextChatService = game:GetService("TextChatService")
+local StarterGui = game:GetService("StarterGui")
 
--- Esperar a que el personaje cargue completamente
-repeat task.wait() until LocalPlayer and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+-- Esperar que el canal RBXGeneral esté listo
+repeat task.wait() until TextChatService.TextChannels and TextChatService.TextChannels:FindFirstChild("RBXGeneral")
 
--- Mostrar notificación
 pcall(function()
-    game.StarterGui:SetCore("SendNotification", {
+    StarterGui:SetCore("SendNotification", {
         Title = "✅ Chat automatizado",
         Text = "Chat automatizado encendido",
         Duration = 5
     })
 end)
 
--- Función para enviar mensajes al chat global
-local function EnviarMensaje(texto)
-    pcall(function()
-        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(texto, "All")
-    end)
-end
+local canal = TextChatService.TextChannels.RBXGeneral
 
--- Lista de mensajes (seguros y graciosos)
 local mensajes = {
     "Hola chicos como están 😎❤️",
     "Estoy feliz de estar aquí 👀🔥",
@@ -34,13 +27,17 @@ local mensajes = {
     "No soy el asesino... o sí? 😏🔪",
     "Cuidado con el que no habla 👀",
     "Volví y traje galletas 🍪",
-    "Final inesperado: mi gato tocó el teclado 😼😂"
+    "Final inesperado: mi gato tocó el teclado",
+    "Ahora si me ire Afk mas tiempo chicos ❤️👀",
+    "Volveré pronto fue divertido conocerlos ❤️😍"
 }
 
--- Enviar los mensajes cada 4 segundos
 task.spawn(function()
+    task.wait(1)
     for _, msg in ipairs(mensajes) do
-        EnviarMensaje(msg)
+        pcall(function()
+            canal:SendAsync(msg)
+        end)
         task.wait(4)
     end
 end)
